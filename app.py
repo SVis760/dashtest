@@ -1,6 +1,6 @@
 import dash
 import dash_core_components as dcc
-import dash_html_components as html
+from dash import html
 import plotly.io as pio
 
 app = dash.Dash(__name__)
