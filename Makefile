@@ -1,24 +1,37 @@
-charset-normalizer==3.3.2
-click==8.1.7
-dash==2.15.0
-dash-core-components==2.0.0
-dash-html-components==2.0.0
-dash-table==5.0.0
-Flask==2.2.5
-idna==3.10
-importlib-metadata==6.7.0
-itsdangerous==2.1.2
-Jinja2==3.1.4
-MarkupSafe==2.1.5
-nest-asyncio==1.6.0
-numpy
-packaging==24.0
-plotly==5.18.0
-requests==2.31.0
-retrying==1.3.4
-six==1.16.0
-tenacity==8.2.3
-typing_extensions==4.7.1
-urllib3==2.0.7
-Werkzeug==2.2.3
-zipp==3.15.0
+run_app:
+	python3 app.py & sleep 30
+
+	wget -r http://127.0.0.1:8050/
+	wget -r http://127.0.0.1:8050/_dash-layout 
+	wget -r http://127.0.0.1:8050/_dash-dependencies
+
+	wget -r http://127.0.0.1:8050/_dash-component-suites/dash/dcc/async-graph.js
+	wget -r http://127.0.0.1:8050/_dash-component-suites/dash/dcc/async-highlight.js
+	wget -r http://127.0.0.1:8050/_dash-component-suites/dash/dcc/async-markdown.js
+	wget -r http://127.0.0.1:8050/_dash-component-suites/dash/dcc/async-datepicker.js
+	wget -r http://127.0.0.1:8050/_dash-component-suites/dash/dcc/async-dropdown.js
+
+	wget -r http://127.0.0.1:8050/_dash-component-suites/dash/dash_table/async-table.js
+	wget -r http://127.0.0.1:8050/_dash-component-suites/dash/dash_table/async-highlight.js
+
+	wget -r http://127.0.0.1:8050/_dash-component-suites/plotly/package_data/plotly.min.js
+
+	mv 127.0.0.1:8050 pages_files
+
+	find pages_files -exec sed -i.bak 's|_dash-component-suites|dash-actions-tutorial\\/_dash-component-suites|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-layout|dash-actions-tutorial/_dash-layout.json|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-dependencies|dash-actions-tutorial/_dash-dependencies.json|g' {} \;
+	find pages_files -exec sed -i.bak 's|_reload-hash|dash-actions-tutorial/_reload-hash|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-update-component|dash-actions-tutorial/_dash-update-component|g' {} \;
+	find pages_files -exec sed -i.bak 's|assets|dash-actions-tutorial/assets|g' {} \;
+
+	mv pages_files/_dash-layout pages_files/_dash-layout.json
+	mv pages_files/_dash-dependencies pages_files/_dash-dependencies.json
+
+	ps | grep python | awk '{print $$1}' | xargs kill -9	
+
+clean_dirs:
+	ls
+	rm -rf 127.0.0.1:8050/
+	rm -rf pages_files/
+	rm -rf joblib
